@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <title>Практична робота 7.3</title>
+</head>
+<body>
+
+    <h1>Робота з JavaScript функціями</h1>
+    <p>Результати виконання можна переглянути у консолі розробника (F12 - Console).</p>
+
+    <script>
+        let numberOfRecusrionCalls = 0;
+        let numberOfMemoCalls = 0;
+        
+        function fibonachiRecursion(numberInRow) {
+            numberOfRecusrionCalls++;
+            
+            if(numberInRow <= 1) {
+                return 1;
+            }
+            
+            return fibonachiRecursion(numberInRow - 1) + fibonachiRecursion(numberInRow - 2);
+        }
+        
+        function createFibonachiMemo() {
+            const cache = {};
+            return function fib(numberInRow) {
+                numberOfMemoCalls++;
+                
+                if (numberInRow <= 1) {
+                    return 1;
+                }
+                
+                if (cache[numberInRow] !== undefined) {
+                    return cache[numberInRow];
+                }
+                
+                cache[numberInRow] = fib(numberInRow - 1) + fib(numberInRow - 2);
+                return cache[numberInRow];
+            };
+        }
+        const fibonachiMemo = createFibonachiMemo();
+        console.log("Рекурсія (n=5):", fibonachiRecursion(5), "Викликів:", numberOfRecusrionCalls);
+        console.log("Мемоїзація (n=5):", fibonachiMemo(5), "Викликів:", numberOfMemoCalls);
+    </script>
+</body>
+</html>
